@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "JOJO Portfolio",
   icons: [{ rel: "icon", url: "logo.svg" }],
+  
   description:
     "Portfolio of Yassine Ech-chaoui - Engineering student specializing in Computer Science and Networks at EMSI Rabat",
   generator: "v0.app",
