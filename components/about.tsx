@@ -4,9 +4,9 @@ import LogoLoop from './LogoLoop';
 import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiCplusplus,
   SiLaravel, SiDjango, SiDocker, SiGit, SiJavascript, SiHtml5, SiCss3,
-  SiBootstrap, SiDotnet, SiNodedotjs, SiPostgresql, SiMongodb, SiAmazon,
-  SiMicrosoft, SiGithub
+  SiBootstrap, SiDotnet, SiNodedotjs, SiPostgresql, SiMongodb, SiAmazon
 } from 'react-icons/si';
+import { SiAzure } from 'react-icons/si';
 
 export default function About() {
   return (
@@ -136,7 +136,7 @@ export default function About() {
                   { node: <SiDocker className="text-4xl text-blue-500" />, title: "Docker", href: "https://docker.com" },
                   { node: <SiGit className="text-4xl text-orange-600" />, title: "Git", href: "https://git-scm.com" },
                   { node: <SiAmazon className="text-4xl text-orange-500" />, title: "AWS", href: "https://aws.amazon.com" },
-                  { node: <SiMicrosoft className="text-4xl text-blue-600" />, title: "Azure", href: "https://azure.microsoft.com" },
+                  { node: <SiAzure className="text-4xl text-blue-600" />, title: "Azure", href: "https://azure.microsoft.com" },
                 ]}
                 speed={60}
                 direction="left"
