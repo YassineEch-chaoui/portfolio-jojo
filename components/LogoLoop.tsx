@@ -57,6 +57,53 @@ const useImageLoader = (seqRef: any, onLoad: () => void, dependencies: any[]) =>
   }, [onLoad, seqRef, dependencies]);
 };
 
+const useAnimationLoop = (trackRef: any, targetVelocity: number, seqWidth: number, isVertical: boolean) => {
+  const rafRef = useRef<number | null>(null);
+  const lastTimestampRef = useRef<number | null>(null);
+  const offsetRef = useRef(0);
+  const velocityRef = useRef(0);
+
+  useEffect(() => {
+    const track = trackRef.current as HTMLElement;
+    if (!track) return;
+
+    const seqSize = seqWidth;
+
+    const animate = (timestamp: number) => {
+      if (lastTimestampRef.current === null) {
+        lastTimestampRef.current = timestamp;
+      }
+
+      const deltaTime = Math.max(0, timestamp - (lastTimestampRef.current as number)) / 1000;
+      lastTimestampRef.current = timestamp;
+
+      const easingFactor = 1 - Math.exp(-deltaTime / ANIMATION_CONFIG.SMOOTH_TAU);
+      velocityRef.current += (targetVelocity - velocityRef.current) * easingFactor;
+
+      if (seqSize > 0) {
+        let nextOffset = offsetRef.current + velocityRef.current * deltaTime;
+        nextOffset = ((nextOffset % seqSize) + seqSize) % seqSize;
+        offsetRef.current = nextOffset;
+
+        const transformValue = `translate3d(${-offsetRef.current}px, 0, 0)`;
+        track.style.transform = transformValue;
+      }
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      lastTimestampRef.current = null;
+    };
+  }, [targetVelocity, seqWidth, trackRef]);
+};
+
 export const LogoLoop = memo(
   ({
     logos,
@@ -107,6 +154,15 @@ export const LogoLoop = memo(
 
     useResizeObserver(updateDimensions, [containerRef, seqRef], [logos, gap, logoHeight, isVertical]);
     useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
+
+    const targetVelocity = useMemo(() => {
+      const magnitude = Math.abs(speed);
+      const directionMultiplier = direction === 'left' ? 1 : -1;
+      const speedMultiplier = speed < 0 ? -1 : 1;
+      return magnitude * directionMultiplier * speedMultiplier;
+    }, [speed, direction]);
+
+    useAnimationLoop(trackRef, targetVelocity, seqWidth, isVertical);
 
     const cssVariables = useMemo(
       () => ({
