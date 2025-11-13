@@ -127,7 +127,6 @@ export default function About() {
                 direction="left"
                 logoHeight={64}
                 gap={48}
-                pauseOnHover={true}
                 scaleOnHover={true}
                 fadeOut={true}
                 fadeOutColor="rgba(0, 0, 0, 0)"
