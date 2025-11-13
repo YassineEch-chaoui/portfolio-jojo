@@ -16,17 +16,7 @@ const projects = [
     images: ["/logine-fairlynk.png","/chate-fairlynk.png", "/dark-fairlynk.png", "/light-fairlynk.png", ],
     features: ["RAG Architecture", "Legal Document Processing", "Real-time Responses", "Multi-language Support"],
   },
-  {
-    title: "E-commerce Platform",
-    category: "Full-Stack Development",
-    description: "Complete e-commerce solution for dietary supplements",
-    fullDescription: "A full-featured e-commerce platform specifically designed for dietary supplement sales. Includes product catalog, shopping cart, payment processing, and order management.",
-    tech: ["Laravel", "React", "MySQL"],
-    link: "https://github.com/yassine13ch/Ecommerce-C2M",
-    color: "from-green-500/20 to-teal-500/20",
-    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
-    features: ["Product Catalog", "Shopping Cart", "Payment Gateway", "Order Tracking"],
-  },
+  
   {
     title: "Recommendation System",
     category: "Data Science",
@@ -48,6 +38,17 @@ const projects = [
     color: "from-pink-500/20 to-rose-500/20",
     images: ["/mobile app/1.png", "/mobile app/2.png","/mobile app/3.png","/mobile app/4.png", ],
     features: ["Quiz Creation", "Real-time Scoring", "Analytics Dashboard", "Firebase Integration"],
+  },
+  {
+    title: "E-commerce Platform",
+    category: "Full-Stack Development",
+    description: "Complete e-commerce solution for dietary supplements",
+    fullDescription: "A full-featured e-commerce platform specifically designed for dietary supplement sales. Includes product catalog, shopping cart, payment processing, and order management.",
+    tech: ["Laravel", "React", "MySQL"],
+    link: "https://github.com/yassine13ch/Ecommerce-C2M",
+    color: "from-green-500/20 to-teal-500/20",
+    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    features: ["Product Catalog", "Shopping Cart", "Payment Gateway", "Order Tracking"],
   },
   {
     title: "TechStore JEE",
