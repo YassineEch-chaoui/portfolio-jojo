@@ -1,7 +1,12 @@
 "use client"
 
 import LogoLoop from './LogoLoop';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiCplusplus, SiLaravel, SiDjango, SiDocker, SiGit } from 'react-icons/si';
+import {
+  SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiCplusplus,
+  SiLaravel, SiDjango, SiDocker, SiGit, SiJavascript, SiHtml5, SiCss3,
+  SiBootstrap, SiDotnet, SiNodedotjs, SiPostgresql, SiMongodb, SiAmazon,
+  SiMicrosoft, SiGithub
+} from 'react-icons/si';
 
 export default function About() {
   return (
@@ -112,18 +117,28 @@ export default function About() {
             <div className="relative h-32 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-md border border-border/50 p-8 overflow-hidden">
               <LogoLoop
                 logos={[
+                  { node: <SiCplusplus className="text-4xl text-blue-700" />, title: "C++", href: "https://cplusplus.com" },
+                  { node: <SiPython className="text-4xl text-blue-500" />, title: "Python", href: "https://python.org" },
+                  { node: <SiJavascript className="text-4xl text-yellow-400" />, title: "JavaScript", href: "https://javascript.com" },
+                  { node: <SiTypescript className="text-4xl text-blue-600" />, title: "TypeScript", href: "https://www.typescriptlang.org" },
                   { node: <SiReact className="text-4xl text-blue-400" />, title: "React", href: "https://react.dev" },
                   { node: <SiNextdotjs className="text-4xl text-foreground" />, title: "Next.js", href: "https://nextjs.org" },
-                  { node: <SiTypescript className="text-4xl text-blue-600" />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+                  { node: <SiHtml5 className="text-4xl text-orange-600" />, title: "HTML5", href: "https://html.spec.whatwg.org" },
+                  { node: <SiCss3 className="text-4xl text-blue-500" />, title: "CSS3", href: "https://www.w3.org/Style/CSS" },
                   { node: <SiTailwindcss className="text-4xl text-cyan-400" />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
-                  { node: <SiPython className="text-4xl text-blue-500" />, title: "Python", href: "https://python.org" },
-                  { node: <SiCplusplus className="text-4xl text-blue-700" />, title: "C++", href: "https://cplusplus.com" },
+                  { node: <SiBootstrap className="text-4xl text-purple-600" />, title: "Bootstrap", href: "https://getbootstrap.com" },
                   { node: <SiLaravel className="text-4xl text-red-500" />, title: "Laravel", href: "https://laravel.com" },
                   { node: <SiDjango className="text-4xl text-green-700" />, title: "Django", href: "https://djangoproject.com" },
+                  { node: <SiDotnet className="text-4xl text-purple-500" />, title: ".NET", href: "https://dotnet.microsoft.com" },
+                  { node: <SiNodedotjs className="text-4xl text-green-600" />, title: "Node.js", href: "https://nodejs.org" },
+                  { node: <SiPostgresql className="text-4xl text-blue-700" />, title: "SQL", href: "https://www.postgresql.org" },
+                  { node: <SiMongodb className="text-4xl text-green-500" />, title: "NoSQL", href: "https://www.mongodb.com" },
                   { node: <SiDocker className="text-4xl text-blue-500" />, title: "Docker", href: "https://docker.com" },
                   { node: <SiGit className="text-4xl text-orange-600" />, title: "Git", href: "https://git-scm.com" },
+                  { node: <SiAmazon className="text-4xl text-orange-500" />, title: "AWS", href: "https://aws.amazon.com" },
+                  { node: <SiMicrosoft className="text-4xl text-blue-600" />, title: "Azure", href: "https://azure.microsoft.com" },
                 ]}
-                speed={80}
+                speed={60}
                 direction="left"
                 logoHeight={64}
                 gap={48}
