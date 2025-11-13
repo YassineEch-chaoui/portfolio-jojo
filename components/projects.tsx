@@ -35,7 +35,7 @@ const projects = [
     tech: ["Python", "PySpark", "Kafka", "Elasticsearch"],
     link: "https://github.com/yassine13ch/Recommendation-System-Ecommerce",
     color: "from-orange-500/20 to-red-500/20",
-    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    images: ["/PFA4eme/1.png", "/PFA4eme/2.png","/PFA4eme/3.png","/PFA4eme/4.png", "/PFA4eme/5.png",],
     features: ["Collaborative Filtering", "Real-time Processing", "Scalable Architecture", "ML Algorithms"],
   },
   {
@@ -46,7 +46,7 @@ const projects = [
     tech: ["Java", "Android Studio", "Firebase"],
     link: "https://github.com/yassine13ch/OnlineExamsApp",
     color: "from-pink-500/20 to-rose-500/20",
-    images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    images: ["/mobile app/1.png", "/mobile app/2.png","/mobile app/3.png","/mobile app/4.png", ],
     features: ["Quiz Creation", "Real-time Scoring", "Analytics Dashboard", "Firebase Integration"],
   },
   {
@@ -265,11 +265,11 @@ export default function Projects() {
             <div className="grid md:grid-cols-2 gap-8 p-8">
               {/* Image carousel */}
               <div className="space-y-4">
-                <div className="relative rounded-2xl overflow-hidden bg-muted aspect-square">
+                <div className="relative rounded-2xl overflow-hidden bg-muted aspect-square flex items-center justify-center">
                   <img
                     src={projects[selectedProject].images[currentImageIndex]}
                     alt={`${projects[selectedProject].title} - Image ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     onError={(e) => {
                       console.error(`Failed to load image: ${projects[selectedProject].images[currentImageIndex]}`);
                       (e.target as HTMLImageElement).src = "/placeholder.jpg";

@@ -6,7 +6,7 @@ import {
   SiLaravel, SiDjango, SiDocker, SiGit, SiJavascript, SiHtml5, SiCss3,
   SiBootstrap, SiDotnet, SiNodedotjs, SiPostgresql, SiMongodb, SiAmazon
 } from 'react-icons/si';
-import { SiAzure } from 'react-icons/si';
+import { FaCloud } from 'react-icons/fa';
 
 export default function About() {
   return (
@@ -111,7 +111,7 @@ export default function About() {
           {/* Tech Stack Logo Loop */}
           <div className="mt-16 space-y-8">
             <h3 className="text-2xl md:text-3xl font-bold animate-in fade-in slide-in-from-bottom-4 duration-700 font-black uppercase tracking-wide">
-              Tech Stack
+              
             </h3>
 
             <div className="relative h-32 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-md border border-border/50 p-8 overflow-hidden">
@@ -136,7 +136,7 @@ export default function About() {
                   { node: <SiDocker className="text-4xl text-blue-500" />, title: "Docker", href: "https://docker.com" },
                   { node: <SiGit className="text-4xl text-orange-600" />, title: "Git", href: "https://git-scm.com" },
                   { node: <SiAmazon className="text-4xl text-orange-500" />, title: "AWS", href: "https://aws.amazon.com" },
-                  { node: <SiAzure className="text-4xl text-blue-600" />, title: "Azure", href: "https://azure.microsoft.com" },
+                  { node: <FaCloud className="text-4xl text-blue-600" />, title: "Azure", href: "https://azure.microsoft.com" },
                 ]}
                 speed={60}
                 direction="left"
