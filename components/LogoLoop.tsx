@@ -1,0 +1,197 @@
+'use client';
+
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
+import './LogoLoop.css';
+
+const ANIMATION_CONFIG = { SMOOTH_TAU: 0.25, MIN_COPIES: 2, COPY_HEADROOM: 2 };
+
+const toCssLength = (value: any) => (typeof value === 'number' ? `${value}px` : (value ?? undefined));
+
+const useResizeObserver = (callback: () => void, elements: any[], dependencies: any[]) => {
+  useEffect(() => {
+    if (!window.ResizeObserver) {
+      const handleResize = () => callback();
+      window.addEventListener('resize', handleResize);
+      callback();
+      return () => window.removeEventListener('resize', handleResize);
+    }
+    const observers = elements.map(ref => {
+      if (!ref.current) return null;
+      const observer = new ResizeObserver(callback);
+      observer.observe(ref.current);
+      return observer;
+    });
+    callback();
+    return () => {
+      observers.forEach(observer => observer?.disconnect());
+    };
+  }, [callback, elements, dependencies]);
+};
+
+const useImageLoader = (seqRef: any, onLoad: () => void, dependencies: any[]) => {
+  useEffect(() => {
+    const images = seqRef.current?.querySelectorAll('img') ?? [];
+    if (images.length === 0) {
+      onLoad();
+      return;
+    }
+    let remainingImages = images.length;
+    const handleImageLoad = () => {
+      remainingImages -= 1;
+      if (remainingImages === 0) onLoad();
+    };
+    images.forEach((img: any) => {
+      if (img.complete) {
+        handleImageLoad();
+      } else {
+        img.addEventListener('load', handleImageLoad, { once: true });
+        img.addEventListener('error', handleImageLoad, { once: true });
+      }
+    });
+    return () => {
+      images.forEach((img: any) => {
+        img.removeEventListener('load', handleImageLoad);
+        img.removeEventListener('error', handleImageLoad);
+      });
+    };
+  }, [onLoad, seqRef, dependencies]);
+};
+
+export const LogoLoop = memo(
+  ({
+    logos,
+    speed = 120,
+    direction = 'left',
+    width = '100%',
+    logoHeight = 28,
+    gap = 32,
+    pauseOnHover,
+    hoverSpeed,
+    fadeOut = false,
+    fadeOutColor,
+    scaleOnHover = false,
+    renderItem,
+    ariaLabel = 'Partner logos',
+    className,
+    style
+  }: any) => {
+    const containerRef = useRef(null);
+    const trackRef = useRef(null);
+    const seqRef = useRef(null);
+
+    const [seqWidth, setSeqWidth] = useState(0);
+    const [seqHeight, setSeqHeight] = useState(0);
+    const [copyCount, setCopyCount] = useState(ANIMATION_CONFIG.MIN_COPIES);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const isVertical = direction === 'up' || direction === 'down';
+
+    const updateDimensions = useCallback(() => {
+      const containerWidth = (containerRef.current as any)?.clientWidth ?? 0;
+      const sequenceRect = (seqRef.current as any)?.getBoundingClientRect?.();
+      const sequenceWidth = sequenceRect?.width ?? 0;
+      const sequenceHeight = sequenceRect?.height ?? 0;
+      if (isVertical) {
+        if (sequenceHeight > 0) {
+          setSeqHeight(Math.ceil(sequenceHeight));
+          const viewport = (containerRef.current as any)?.clientHeight ?? sequenceHeight;
+          const copiesNeeded = Math.ceil(viewport / sequenceHeight) + ANIMATION_CONFIG.COPY_HEADROOM;
+          setCopyCount(Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded));
+        }
+      } else if (sequenceWidth > 0) {
+        setSeqWidth(Math.ceil(sequenceWidth));
+        const copiesNeeded = Math.ceil(containerWidth / sequenceWidth) + ANIMATION_CONFIG.COPY_HEADROOM;
+        setCopyCount(Math.max(ANIMATION_CONFIG.MIN_COPIES, copiesNeeded));
+      }
+    }, [isVertical]);
+
+    useResizeObserver(updateDimensions, [containerRef, seqRef], [logos, gap, logoHeight, isVertical]);
+    useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
+
+    const cssVariables = useMemo(
+      () => ({
+        '--logoloop-gap': `${gap}px`,
+        '--logoloop-logoHeight': `${logoHeight}px`,
+        ...(fadeOutColor && { '--logoloop-fadeColor': fadeOutColor })
+      } as any),
+      [gap, logoHeight, fadeOutColor]
+    );
+
+    const rootClassName = useMemo(
+      () =>
+        [
+          'logoloop',
+          isVertical ? 'logoloop--vertical' : 'logoloop--horizontal',
+          fadeOut && 'logoloop--fade',
+          scaleOnHover && 'logoloop--scale-hover',
+          className
+        ]
+          .filter(Boolean)
+          .join(' '),
+      [isVertical, fadeOut, scaleOnHover, className]
+    );
+
+    const renderLogoItem = useCallback(
+      (item: any, key: string) => {
+        if (renderItem) {
+          return (
+            <li className="logoloop__item" key={key} role="listitem">
+              {renderItem(item, key)}
+            </li>
+          );
+        }
+        const isNodeItem = 'node' in item;
+        const content = isNodeItem ? (
+          <span className="logoloop__node">{item.node}</span>
+        ) : (
+          <img src={item.src} alt={item.alt ?? ''} title={item.title} loading="lazy" draggable={false} />
+        );
+        const itemContent = item.href ? (
+          <a className="logoloop__link" href={item.href} target="_blank" rel="noreferrer noopener">
+            {content}
+          </a>
+        ) : (
+          content
+        );
+        return (
+          <li className="logoloop__item" key={key} role="listitem">
+            {itemContent}
+          </li>
+        );
+      },
+      [renderItem]
+    );
+
+    const logoLists = useMemo(
+      () =>
+        Array.from({ length: copyCount }, (_, copyIndex) => (
+          <ul className="logoloop__list" key={`copy-${copyIndex}`} role="list" ref={copyIndex === 0 ? seqRef : undefined}>
+            {logos.map((item: any, itemIndex: number) => renderLogoItem(item, `${copyIndex}-${itemIndex}`))}
+          </ul>
+        )),
+      [copyCount, logos, renderLogoItem]
+    );
+
+    const containerStyle = useMemo(
+      () => ({
+        width: isVertical ? (toCssLength(width) === '100%' ? undefined : toCssLength(width)) : (toCssLength(width) ?? '100%'),
+        ...cssVariables,
+        ...style
+      }),
+      [width, cssVariables, style, isVertical]
+    );
+
+    return (
+      <div ref={containerRef} className={rootClassName} style={containerStyle} role="region" aria-label={ariaLabel}>
+        <div className="logoloop__track" ref={trackRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+          {logoLists}
+        </div>
+      </div>
+    );
+  }
+);
+
+LogoLoop.displayName = 'LogoLoop';
+
+export default LogoLoop;
+

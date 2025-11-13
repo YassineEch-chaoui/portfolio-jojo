@@ -1,5 +1,8 @@
 "use client"
 
+import LogoLoop from './LogoLoop';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiCplusplus, SiLaravel, SiDjango, SiDocker, SiGit } from 'react-icons/si';
+
 export default function About() {
   return (
     <section id="about" className="min-h-screen relative overflow-hidden gradient-bg py-24 px-6 md:px-12">
@@ -98,6 +101,39 @@ export default function About() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Tech Stack Logo Loop */}
+          <div className="mt-16 space-y-8">
+            <h3 className="text-2xl md:text-3xl font-bold animate-in fade-in slide-in-from-bottom-4 duration-700 font-black uppercase tracking-wide">
+              Tech Stack
+            </h3>
+
+            <div className="relative h-32 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-md border border-border/50 p-8 overflow-hidden">
+              <LogoLoop
+                logos={[
+                  { node: <SiReact className="text-4xl text-blue-400" />, title: "React", href: "https://react.dev" },
+                  { node: <SiNextdotjs className="text-4xl text-foreground" />, title: "Next.js", href: "https://nextjs.org" },
+                  { node: <SiTypescript className="text-4xl text-blue-600" />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+                  { node: <SiTailwindcss className="text-4xl text-cyan-400" />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+                  { node: <SiPython className="text-4xl text-blue-500" />, title: "Python", href: "https://python.org" },
+                  { node: <SiCplusplus className="text-4xl text-blue-700" />, title: "C++", href: "https://cplusplus.com" },
+                  { node: <SiLaravel className="text-4xl text-red-500" />, title: "Laravel", href: "https://laravel.com" },
+                  { node: <SiDjango className="text-4xl text-green-700" />, title: "Django", href: "https://djangoproject.com" },
+                  { node: <SiDocker className="text-4xl text-blue-500" />, title: "Docker", href: "https://docker.com" },
+                  { node: <SiGit className="text-4xl text-orange-600" />, title: "Git", href: "https://git-scm.com" },
+                ]}
+                speed={80}
+                direction="left"
+                logoHeight={64}
+                gap={48}
+                pauseOnHover={true}
+                scaleOnHover={true}
+                fadeOut={true}
+                fadeOutColor="rgba(0, 0, 0, 0)"
+                ariaLabel="Technology stack"
+              />
+            </div>
           </div>
         </div>
       </div>
